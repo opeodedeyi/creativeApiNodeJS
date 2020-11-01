@@ -15,7 +15,7 @@ const projectCollabSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     }],
-    skills: [{
+    skillsNeeded: [{
         type: mongoose.Schema.Types.ObjectId,
         required: false,
         ref: 'Skill'
