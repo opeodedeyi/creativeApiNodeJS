@@ -4,8 +4,8 @@ const auth = require('../middleware/auth')
 const router = new express.Router()
 
 
+// Signup a user
 router.post('/api/signup', async (req, res) => {
-    // Signup a user
     const user = new User(req.body)
 
     try {
@@ -17,8 +17,9 @@ router.post('/api/signup', async (req, res) => {
     }
 })
 
+
+// Login a user
 router.post('/api/login', async (req, res) => {
-    // Login a user
     try {
         const user = await User.findByCredentials(req.body.email, req.body.password)
         const token = await user.generateAuthToken()
@@ -28,8 +29,9 @@ router.post('/api/login', async (req, res) => {
     }
 })
 
+
+// Log out a user
 router.post('/api/logout', auth, async (req, res) => {
-    // Log out a user
     try {
         req.user.tokens = req.user.tokens.filter((token) => {
             return token.token !== req.token
@@ -42,8 +44,9 @@ router.post('/api/logout', auth, async (req, res) => {
     }
 })
 
+
+// Logged Out of all of a user's devices
 router.post('/api/logoutall', auth, async (req, res) => {
-    // Logged Out of devices
     try {
         req.user.tokens = []
         await req.user.save()
@@ -54,13 +57,15 @@ router.post('/api/logoutall', auth, async (req, res) => {
     }
 })
 
+
+// Get logged in users profile
 router.get('/api/me', auth, async (req, res) => {
-    // Get logged in users profile
     res.send(req.user)
 })
 
+
+// Edit logged in users profile
 router.patch('/api/me', auth, async (req, res) => {
-    // Edit logged in users profile
     const updates = Object.keys(req.body)
     const allowedUpdates = ['username', 'password', 'skills', 'bio', 'sex', 'location', 'bodyType', 'height', 'ProfilePhoto']
     const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
@@ -78,8 +83,9 @@ router.patch('/api/me', auth, async (req, res) => {
     }
 })
 
+
+// Get all users in database
 router.get('/api/users', async (req, res) => {
-    // Get all users
     try {
         const users = await User.find({})
         res.send(users)
@@ -87,6 +93,7 @@ router.get('/api/users', async (req, res) => {
         res.status(500).send()
     }
 })
+
 
 // Getting a specific user details
 router.get('/api/users/:id', async (req, res) => {
@@ -102,5 +109,6 @@ router.get('/api/users/:id', async (req, res) => {
         res.status(500).send()
     }
 })
+
 
 module.exports = router
