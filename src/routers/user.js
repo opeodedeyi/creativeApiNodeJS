@@ -111,4 +111,13 @@ router.get('/api/users/:id', async (req, res) => {
 })
 
 
+// Send confirmation email
+// Follow a user
+// Unfollow a user
+// Get a users followers
+// Get a users following
+// Change profile photo
+// Add a skill to profile
+// Remove a skill from profile
+
 module.exports = router
