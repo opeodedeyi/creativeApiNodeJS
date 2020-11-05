@@ -84,6 +84,26 @@ router.patch('/api/me', auth, async (req, res) => {
 })
 
 
+// Edit logged in users profile photo
+router.patch('/api/me', auth, async (req, res) => {
+    const updates = Object.keys(req.body)
+    const allowedUpdates = ['ProfilePhoto']
+    const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
+
+    if (!isValidOperation) {
+        return res.status(404).send({ error: 'Invalid updates!' })
+    }
+
+    try {
+        updates.forEach((update) => req.user[update] = req.body[update])
+        await req.user.save()
+        res.send(req.user)
+    } catch (e) {
+        res.status(400).send(e)
+    }
+})
+
+
 // Get all users in database
 router.get('/api/users', async (req, res) => {
     try {
@@ -116,7 +136,6 @@ router.get('/api/users/:id', async (req, res) => {
 // Unfollow a user
 // Get a users followers
 // Get a users following
-// Change profile photo
 // Add a skill to profile
 // Remove a skill from profile
 
