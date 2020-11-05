@@ -104,6 +104,14 @@ router.patch('/api/me', auth, async (req, res) => {
 })
 
 
+// Add a skill or bunch of skills to logged in users profile
+router.patch('api/me/skills', auth, async (req, res) => {
+    const skillsToAdd = req.body
+
+    console.log(skillsToAdd)
+})
+
+
 // Get all users in database
 router.get('/api/users', async (req, res) => {
     try {
@@ -136,7 +144,6 @@ router.get('/api/users/:id', async (req, res) => {
 // Unfollow a user
 // Get a users followers
 // Get a users following
-// Add a skill to profile
 // Remove a skill from profile
 
 module.exports = router
