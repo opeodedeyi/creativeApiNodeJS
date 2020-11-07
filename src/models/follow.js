@@ -10,11 +10,6 @@ const followSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         required: true,
         ref: 'Showcase'
-    },
-    status: {
-        type: String,
-        required: true,
-        enum: ["following", "blocked"]
     }
 }, {
     timestamps: true

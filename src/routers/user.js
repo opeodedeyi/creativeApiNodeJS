@@ -4,9 +4,28 @@ const auth = require('../middleware/auth')
 const router = new express.Router()
 
 
-// Signup a user
+// Signup a normal user
 router.post('/api/signup', async (req, res) => {
     const user = new User(req.body)
+
+    try {
+        await user.save()
+        const token = await user.generateAuthToken()
+        res.status(201).send({ user, token })
+    } catch (e) {
+        res.status(500).send(e)
+    }
+})
+
+
+// Signup an admin user with special previleges
+router.post('/api/signupAdmin', async (req, res) => {
+    const user = new User({
+        ...req.body,
+        isEmailConfirmed: true,
+        isAdmin: true,
+        hasSpecialPrevilege: true
+    })
 
     try {
         await user.save()
@@ -104,12 +123,22 @@ router.patch('/api/me', auth, async (req, res) => {
 })
 
 
+///////////////////// work in progress /////////////////////
 // Add a skill or bunch of skills to logged in users profile
 router.patch('api/me/skills', auth, async (req, res) => {
     const skillsToAdd = req.body
 
     console.log(skillsToAdd)
 })
+
+
+// remove a skill from logged in users profile
+router.patch('api/me/skills', auth, async (req, res) => {
+    const skillsToAdd = req.body
+
+    console.log(skillsToAdd)
+})
+///////////////////// work in progress /////////////////////
 
 
 // Get all users in database
