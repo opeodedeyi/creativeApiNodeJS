@@ -126,9 +126,9 @@ router.get('/api/:id/isfollowing', auth, async (req, res) => {
         const amIFollowing = await Follow.find({
             user: req.params.id,
             followedBy: req.user._id
-        })
+        }).countDocuments()
 
-        if (amIFollowing != "") {
+        if (amIFollowing) {
             return res.status(200).send({ "isfollowing": true })
         }
 
