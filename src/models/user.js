@@ -140,11 +140,6 @@ userSchema.methods.toJSON = function () {
     return userObject
 }
 
-// userSchema.virtual('notes', {
-//     ref: 'Note',
-//     localField: '_id',
-//     foreignField: 'owner'
-// })
 
 // handles logging in and checking if the email and password is same
 userSchema.statics.findByCredentials = async (email, password) => {

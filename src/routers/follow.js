@@ -2,6 +2,7 @@ const express = require('express')
 const Follow = require('../models/follow')
 const User = require('../models/user')
 const auth = require('../middleware/auth')
+const { request } = require('express')
 const router = new express.Router()
 
 
@@ -116,26 +117,22 @@ router.get('/api/:id/following', async (req, res) => {
 
 // Get if logged in user is following the user being checked
 router.get('/api/:id/isfollowing', auth, async (req, res) => {
+
+    if (req.params.id==req.user._id) {
+        return res.status(200).send({ "isfollowing": "Myself" })
+    }
+
     try {
-        const followers = await Follow.find({
-            user: req.params.id
+        const amIFollowing = await Follow.find({
+            user: req.params.id,
+            followedBy: req.user._id
         })
 
-        let followersArr = followers.map(follower=>{
-            return follower.followedBy
-        })
-
-        const yes = followersArr.includes(req.user._id)
-
-        if (req.params.id==req.user._id) {
+        if (amIFollowing != "") {
             return res.status(200).send({ "isfollowing": true })
         }
 
-        else if (!yes) {
-            return res.status(200).send({ "isfollowing": false })
-        }
-
-        return res.status(200).send({ "isfollowing": true })
+        return res.status(200).send({ "isfollowing": false })
 
     } catch (e) {
         res.status(500).send()
