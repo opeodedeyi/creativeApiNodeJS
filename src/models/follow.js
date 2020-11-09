@@ -1,6 +1,8 @@
 const mongoose = require('mongoose')
 
 const followSchema = new mongoose.Schema({
+    // the logged in user who will be trying to follow someone will be added to "followedBy"
+    // the user who is getting followed will be added to "user"
     user: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
