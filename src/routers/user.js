@@ -123,22 +123,32 @@ router.patch('/api/me', auth, async (req, res) => {
 })
 
 
-///////////////////// work in progress /////////////////////
 // Add a skill or bunch of skills to logged in users profile
-router.patch('api/me/skills', auth, async (req, res) => {
-    const skillsToAdd = req.body
+router.post('/api/me/skills', auth, async (req, res) => {
+    const skillsToAdd = req.body.skill
 
-    console.log(skillsToAdd)
+    try {
+        skillsToAdd.forEach((item) => req.user.skills.addToSet(item))
+        await req.user.save()
+        res.status(201).send(req.user)
+    } catch (e) {
+        res.status(500).send(e)
+    }
 })
 
 
 // remove a skill from logged in users profile
-router.patch('api/me/skills', auth, async (req, res) => {
-    const skillsToAdd = req.body
-
-    console.log(skillsToAdd)
+router.delete('/api/me/skills', auth, async (req, res) => {
+    try {
+        req.user.skills = req.user.skills.filter((objid) => {
+            return objid != req.body.skill
+        })
+        await req.user.save()
+        res.status(201).send(req.user)
+    } catch (e) {
+        res.status(500).send(e)
+    }
 })
-///////////////////// work in progress /////////////////////
 
 
 // Get all users in database
@@ -169,6 +179,5 @@ router.get('/api/users/:id', async (req, res) => {
 
 
 // Send confirmation email
-// Remove a skill from profile
 
 module.exports = router
