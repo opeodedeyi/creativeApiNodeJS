@@ -139,9 +139,13 @@ router.post('/api/me/skills', auth, async (req, res) => {
 
 // remove a skill from logged in users profile
 router.delete('/api/me/skills', auth, async (req, res) => {
+    const skillsToRemove = req.body.skill
+
     try {
-        req.user.skills = req.user.skills.filter((objid) => {
-            return objid != req.body.skill
+        skillsToRemove.forEach((item) => {
+            req.user.skills = req.user.skills.filter((objid) => {
+                return objid != item
+            })
         })
         await req.user.save()
         res.status(201).send(req.user)
