@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const showcaseSchema = new mongoose.Schema({
+const projectSchema = new mongoose.Schema({
     title: {
         type: String,
         required: true,
@@ -39,6 +39,6 @@ const showcaseSchema = new mongoose.Schema({
     timestamps: true
 })
 
-const Showcase = mongoose.model('Showcase', showcaseSchema)
+const Project = mongoose.model('Project', projectSchema)
 
-module.exports = Showcase
+module.exports = Project
