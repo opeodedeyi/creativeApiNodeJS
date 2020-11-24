@@ -6,10 +6,10 @@ const likeSchema = new mongoose.Schema({
         required: true,
         ref: 'User'
     },
-    reference: {
+    project: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
-        ref: 'Showcase'
+        ref: 'Project'
     }
 }, {
     timestamps: true

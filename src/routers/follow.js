@@ -2,7 +2,6 @@ const express = require('express')
 const Follow = require('../models/follow')
 const User = require('../models/user')
 const auth = require('../middleware/auth')
-const { request } = require('express')
 const router = new express.Router()
 
 

@@ -6,10 +6,10 @@ const commentSchema = new mongoose.Schema({
         required: true,
         ref: 'User'
     },
-    showcase: {
+    project: {
         type: Boolean || mongoose.Schema.Types.ObjectId,
         required: false,
-        ref: 'Showcase' || null,
+        ref: 'Project' || null,
         default: false
     },
     body: {

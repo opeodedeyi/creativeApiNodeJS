@@ -1,6 +1,21 @@
 const mongoose = require('mongoose')
 
 const projectSchema = new mongoose.Schema({
+    owner: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: 'User'
+    },
+    isShowcase: {
+        type: Boolean,
+        required: false,
+        default: false
+    },
+    isCollab: {
+        type: Boolean,
+        required: false,
+        default: false
+    },
     title: {
         type: String,
         required: true,
@@ -11,20 +26,7 @@ const projectSchema = new mongoose.Schema({
         required: true,
         trim: true
     },
-    peopleInvolved: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
-    }],
-    skills: [{
-        type: mongoose.Schema.Types.ObjectId,
-        required: false,
-        ref: 'Skill'
-    }],
-    owner: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true,
-        ref: 'User'
-    },
+
     // image related start
     thumbnail: {
         type: String,
@@ -33,8 +35,47 @@ const projectSchema = new mongoose.Schema({
     },
     media: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Media'
+        ref: 'Media',
+        required: false,
     }],
+    // image related end
+
+
+    //  Extras
+
+    //  Skills needed is set by the owner and he specifies the skills that are needed if they
+    //  are looking for creatives to join in the project. if projectType is "collaboration" or "both"
+    skillsNeeded: [{
+        type: mongoose.Schema.Types.ObjectId,
+        required: false,
+        ref: 'Skill'
+    }],
+    //  Contributors will be added by the owner, and he adds users that contributed to the project
+    contributors: [{
+        user: {
+            type: mongoose.Schema.Types.ObjectId,
+            required: false,
+            ref: 'User'
+        },
+        role: {
+            type: mongoose.Schema.Types.ObjectId,
+            required: false,
+            ref: 'Skill'
+        },
+        required: false,
+    }],
+    //  If the type of project is a collaboration or both, the below "isOpen if set to true will allow
+    //  Other users show interest in a project
+    isOpen: {
+        type: Boolean,
+        required: false,
+        default: false
+    },
+    interest: [{
+        type: mongoose.Schema.Types.ObjectId,
+        required: false,
+        ref: 'User'
+    }]
 }, {
     timestamps: true
 })

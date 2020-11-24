@@ -1,6 +1,5 @@
 const express = require('express')
 const Skill = require('../models/skill')
-const auth = require('../middleware/auth')
 const specialPrevilege = require('../middleware/specialPrevilege')
 const router = new express.Router()
 
