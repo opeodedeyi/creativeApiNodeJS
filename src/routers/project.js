@@ -97,11 +97,10 @@ router.get('/api/project/:id', async (req, res) => {
 
 
 // get all logged in user's projects
-router.patch('/api/project/mine', auth, async (req, res) => {
+router.get('/api/myprojects', auth, async (req, res) => {
     try {
         const id = req.user._id
         const projects = await Project.find({owner: id})
-        console.log(projects);
         res.status(200).send(projects)
     } catch (e) {
         res.status(401).send()
@@ -205,7 +204,7 @@ router.patch('/api/project/:id/open', auth, async (req, res) => {
 })
 
 
-// delete a project
+// delete a project ***(((work on this)))***
 router.delete('/api/project/:id', auth, async (req, res) => {
     const _id = req.params.id
 
